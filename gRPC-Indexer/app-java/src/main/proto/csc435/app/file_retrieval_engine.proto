@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option java_multiple_files = true;
+option java_package = "csc435.app";
+option java_outer_classname = "FileRetrievalEngineProto";
+
+service FileRetrievalEngine {
+    rpc Register(google.protobuf.Empty) returns (RegisterRep) {}
+    rpc ComputeIndex(IndexReq) returns (IndexRep) {}
+    rpc ComputeSearch(SearchReq) returns (SearchRep) {}
+    rpc Deregister(DeregisterReq) returns (google.protobuf.Empty) {}
+    rpc Shutdown(ServerShutdownReq) returns (ServerShutdownReq) {}
+}
+
+message RegisterRep {
+    int32 client_id = 1;
+}
+
+message IndexReq {
+    int32 client_id = 1;
+    string document_path = 2;
+    map<string, int64> word_frequencies = 3;
+}
+
+message IndexRep {
+    string message = 1;
+    int64 indexed_bytes = 2;
+}
+
+message SearchReq {
+    repeated string terms = 1;
+}
+
+message SearchRep {
+    repeated SearchResult search_results = 1;
+    double time_taken = 2;
+    int64 total_results = 3;
+
+    message SearchResult {
+        int32 client_id = 1;
+        string document_path = 2;
+        int64 frequency = 3;
+    }
+}
+
+message DeregisterReq {
+    int32 client_id = 1;
+}
+
+message ServerShutdownReq {
+    string message = 1;
+}

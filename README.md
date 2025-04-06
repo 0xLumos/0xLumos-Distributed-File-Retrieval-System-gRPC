@@ -100,7 +100,7 @@ FileRetrievalEngineService exposes gRPC methods
 
 Shutdown is cleanly handled via RPCServerWorker.shutdown()
 
-License
+## License
 
 MIT License – free to use, modify, and distribute.
 
